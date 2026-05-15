@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LARPGODS NR2 Dashboard — Ask Your Data Anything</title>
+  <meta name="description" content="Natural-language powered analytics dashboard for banking voicebot data by LARPGODS. Type a question, get a chart.">
+  <link rel="stylesheet" href="/static/styles.css">
+  <!-- Apache ECharts — stunning charts with zero build step -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
+</head>
+<body>
+  <!-- Background effects -->
+  <div class="bg-mesh"></div>
+  <div class="bg-dots"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">LRP</div>
+      <span>LARPGODS NR2 Dashboard</span>
+    </div>
+    <div class="header-meta">
+      <button class="header-clear-btn" id="clear-btn" onclick="clearAll()" style="display:none">Clear all</button>
+      <span class="header-badge">Live</span>
+      <span id="widget-count">0 widgets</span>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <!-- Hero / Command Section -->
+    <section class="hero" id="hero">
+      <h1 class="hero-title">Ask your data anything</h1>
+      <p class="hero-subtitle">Natural-language analytics for your voicebot — no SQL required</p>
+
+      <div class="command-bar">
+        <div class="command-input-wrapper">
+          <span class="command-icon">⚡</span>
+          <input
+            type="text"
+            class="command-input"
+            id="query-input"
+            placeholder="Show me containment rate by intent..."
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <button class="command-submit" id="submit-btn" type="button">
+            Ask <span class="kbd">↵</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="suggestions" id="suggestions">
+        <button class="suggestion-pill" data-query="Compare bot v2.2.1 vs v2.3.0 containment rate by week">🔄 Version comparison</button>
+        <button class="suggestion-pill" data-query="Show tool success rate and latency over time by intent category">🔧 Incident Window</button>
+        <button class="suggestion-pill" data-query="CSAT and containment rate by customer segment">⭐ Segment quality</button>
+        <button class="suggestion-pill" data-query="Show call volume by hour of day and day of week">⏱️ Seasonality</button>
+        <button class="suggestion-pill" data-query="Show LLM-judge disagreement rate: intent_resolved vs call_successful">⚖️ LLM Quality</button>
+        <button class="suggestion-pill" data-query="Show resolution rate for repeat callers after an auth escalation">🔁 Call cascade</button>
+        <button class="suggestion-pill" data-query="Escalation rate by transfer amount bucket">💰 Transfer risk</button>
+        <button class="suggestion-pill" data-query="Show language consistency failures by region">🌍 Language issues</button>
+      </div>
+    </section>
+
+    <!-- Bento Grid -->
+    <main class="bento-grid" id="bento-grid"></main>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading">
+    <div class="loading-spinner">
+      <span></span><span></span><span></span>
+    </div>
+    <p class="loading-text">Analyzing your data...</p>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,4 +1,30 @@
+# Environment
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
 .venv/
 venv/
-__pycache__/
-*.pyc
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (keep duckdb committed, it's the challenge dataset)
+# data/conversations.duckdb  -- DO NOT gitignore, teams need this
+
+# Logs
+*.log
