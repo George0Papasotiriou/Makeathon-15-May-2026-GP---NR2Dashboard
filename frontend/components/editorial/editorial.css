@@ -1,0 +1,318 @@
+/* Magazine-scoped styles. Light theme always, regardless of canvas theme.
+   All variables scoped to .editorial-root so nothing leaks. */
+
+.editorial-root {
+  /* Magazine palette */
+  --magazine-bg:            #fafaf7;
+  --magazine-bg-dark:       #0a0a0a;
+  --magazine-fg:            #1a1a1a;
+  --magazine-muted:         #6b6b6b;
+  --magazine-hairline:      #d4d4d4;
+  --magazine-callout-bg:    rgba(99, 102, 241, 0.04);
+  --magazine-callout-border:#6366f1;
+
+  /* Override theme tokens so descendants using Tailwind text-foreground
+     / bg-card / etc. resolve to magazine values, NOT the canvas dark
+     theme. Charts inside the editorial depend on this. */
+  --background:        #fafaf7;
+  --foreground:        #1a1a1a;
+  --card:              #ffffff;
+  --card-foreground:   #1a1a1a;
+  --muted:             #f1f1ed;
+  --muted-foreground:  #6b6b6b;
+  --border:            #d4d4d4;
+
+  /* Chart palette — force the lighter, more saturated version */
+  --chart-1: oklch(0.55 0.18 264);
+  --chart-2: oklch(0.65 0.16 200);
+  --chart-3: oklch(0.55 0.20 290);
+  --chart-4: oklch(0.60 0.15 150);
+  --chart-5: oklch(0.70 0.18 60);
+
+  /* Magazine type stack — same fonts as canvas, different role.
+     Playfair covers display AND body since Source Serif isn't loaded. */
+  --magazine-display: var(--font-playfair), Georgia, serif;
+  --magazine-body:    var(--font-playfair), Georgia, serif;
+  --magazine-mono:    var(--font-mono), ui-monospace, monospace;
+
+  background: var(--magazine-bg);
+  color: var(--magazine-fg);
+  font-family: var(--magazine-body);
+}
+
+/* A4 page at 96 DPI — exactly 794×1123 px so PDF assembly is deterministic. */
+.editorial-page {
+  width: 794px;
+  height: 1123px;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+  font-family: var(--magazine-body);
+}
+
+.editorial-page + .editorial-page {
+  margin-top: 24px;
+}
+
+.editorial-page--dark {
+  background: var(--magazine-bg-dark);
+  color: #fafafa;
+}
+
+.editorial-page--light {
+  background: var(--magazine-bg);
+  color: var(--magazine-fg);
+}
+
+/* Cover page typography */
+.editorial-cover-kicker {
+  font-family: var(--magazine-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.editorial-cover-title {
+  font-family: var(--magazine-display);
+  font-size: 64px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+.editorial-cover-dek {
+  font-family: var(--magazine-body);
+  font-size: 20px;
+  line-height: 1.4;
+  opacity: 0.7;
+  font-style: italic;
+  max-width: 540px;
+}
+
+/* Section spread: 55/45 split */
+.editorial-section {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  height: 100%;
+  position: relative;
+}
+
+.editorial-section-number {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  font-family: var(--magazine-display);
+  font-size: 160px;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--magazine-fg);
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.editorial-section-left {
+  padding: 80px 48px 60px 60px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.editorial-section-right {
+  padding: 80px 60px 60px 48px;
+  border-left: 1px solid var(--magazine-hairline);
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.editorial-section-kicker {
+  font-family: var(--magazine-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--magazine-muted);
+  margin-bottom: 18px;
+}
+
+.editorial-section-hairline {
+  width: 64px;
+  height: 1px;
+  background: var(--magazine-hairline);
+  border: 0;
+  margin: 0 0 32px 0;
+}
+
+.editorial-section-headline {
+  font-family: var(--magazine-display);
+  font-size: 36px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  margin-bottom: 32px;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.editorial-section-lede {
+  font-family: var(--magazine-body);
+  font-size: 17px;
+  line-height: 1.45;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.editorial-section-body {
+  flex: 0 1 auto;
+  font-family: var(--magazine-body);
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin-bottom: 32px;
+}
+
+.editorial-callout {
+  flex: 0 0 auto;
+  background: var(--magazine-callout-bg);
+  border-left: 4px solid var(--magazine-callout-border);
+  padding: 18px 22px;
+  margin-top: auto;
+}
+
+.editorial-callout-label {
+  font-family: var(--magazine-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--magazine-callout-border);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.editorial-callout-body {
+  font-family: var(--magazine-body);
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+/* KPI on right side */
+.editorial-kpi {
+  margin-bottom: 28px;
+}
+
+.editorial-kpi-label {
+  font-family: var(--magazine-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--magazine-muted);
+  margin-bottom: 8px;
+}
+
+.editorial-kpi-value {
+  font-family: var(--magazine-display);
+  font-size: 56px;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+/* Chart slot — narrow column (~249px usable), force compactness on
+   axis labels via the Recharts SVG. */
+.editorial-chart {
+  flex: 1;
+  min-height: 380px;
+  max-height: 480px;
+  width: 100%;
+  position: relative;
+}
+
+.editorial-chart .recharts-cartesian-axis-tick text,
+.editorial-chart .recharts-text {
+  font-size: 10px !important;
+}
+
+.editorial-chart .recharts-legend-wrapper {
+  font-size: 10px !important;
+}
+
+/* Contents page */
+.editorial-contents-title {
+  font-family: var(--magazine-display);
+  font-size: 56px;
+  line-height: 1;
+}
+
+.editorial-contents-dek {
+  font-family: var(--magazine-body);
+  font-size: 16px;
+  line-height: 1.5;
+  opacity: 0.5;
+  font-style: italic;
+  max-width: 520px;
+}
+
+.editorial-contents-list {
+  font-family: var(--magazine-body);
+  font-size: 22px;
+  line-height: 1.6;
+}
+
+.editorial-contents-list-num {
+  font-family: var(--magazine-mono);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+  margin-right: 24px;
+}
+
+.editorial-contents-page-num {
+  font-family: var(--magazine-mono);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  opacity: 0.4;
+  white-space: nowrap;
+}
+
+/* Colophon / methodology page */
+.editorial-colophon-title {
+  font-family: var(--magazine-display);
+  font-size: 56px;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.editorial-colophon-stamp {
+  font-family: var(--magazine-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.editorial-colophon-imprint {
+  font-family: var(--magazine-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.editorial-methodology {
+  font-family: var(--magazine-body);
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.7;
+  max-width: 580px;
+}
